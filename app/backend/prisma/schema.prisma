@@ -1,0 +1,181 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --- CORE MODELS ---
+model User {
+  id                   String                @id @default(uuid())
+  email                String                @unique
+  password             String
+  name                 String?
+  role                 Role                  @default(USER)
+  plan                 Plan                  @default(FREE)
+  businesses           Business[]
+  generatedContents    GeneratedContent[]
+  generatedAdCampaigns GeneratedAdCampaign[]
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+}
+
+model Business {
+  id                   String                @id @default(uuid())
+  name                 String
+  sourceUrl            String?
+  description          String                @db.Text
+  industry             Industry
+  location             String?
+  businessSize         BusinessSize          @default(SMALL)
+  targetAudienceLocale String?
+  preferredLanguage    String                @default("en-US")
+  details              Json? 
+  marketAnalysis       MarketAnalysis?
+  brandIdentity        BrandIdentity?
+  customerBlueprint    CustomerBlueprint?
+  marketingPlans       MarketingPlan[]
+  ownerId              String
+  owner                User                  @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  generatedContents    GeneratedContent[]
+  generatedAdCampaigns GeneratedAdCampaign[]
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+}
+
+// --- ANALYSIS MODULES ---
+model MarketAnalysis {
+  id                  String   @id @default(uuid())
+  strategicSummary    Json?
+  swotAnalysis        Json?
+  pestelAnalysis      Json?
+  portersFiveForces   Json?
+  competitorAnalysis  Json?
+  vrioAnalysis        Json?
+  marketSizing        Json?
+  executionChallenges String?  @db.Text
+  businessId          String   @unique
+  business            Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  lastUpdatedAt       DateTime @updatedAt
+}
+
+model BrandIdentity {
+  id                 String   @id @default(uuid())
+  brandArchetype     Json?
+  brandVoiceKeywords Json?
+  visualPreferences  Json?
+  businessId         String   @unique
+  business           Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  lastUpdatedAt      DateTime @updatedAt
+}
+
+model CustomerBlueprint {
+  id                 String   @id @default(uuid())
+  valueProposition   Json?
+  audiencePersonas   Json?
+  customerJourneyMap Json?
+  businessId         String   @unique
+  business           Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  lastUpdatedAt      DateTime @updatedAt
+}
+
+// --- PLANNING & EXECUTION MODELS ---
+model MarketingPlan {
+  id                    String                @id @default(uuid())
+  planName              String
+  userDefinedGoal       String?
+  ambitionLevel         String?
+  existingAssets        String[]
+  targetBusinessGoal    String                @db.Text
+  coreMarketingStrategy String                @db.Text
+  durationInMonths      Int
+  budgetScenario        String
+  estimatedBudget       Json
+  strategicPillars      Json?
+  contentEngineStrategy Json?
+  campaignRoadmap       Json
+  kpiDashboard          Json
+  riskAnalysis          Json?
+  quickWins             Json?
+  businessId            String
+  business              Business              @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  contentExecutionPlans ContentExecutionPlan[]
+  generatedAdCampaigns  GeneratedAdCampaign[]
+  createdAt             DateTime              @default(now())
+}
+
+model GeneratedContent {
+  id                     String   @id @default(uuid())
+  content                String   @db.Text
+  prompt                 String   @db.Text
+  modelUsed              String
+  contentExecutionPlanId String?
+  taskId                 String?
+  variationNumber        Int?
+  businessId             String
+  business               Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  userId                 String
+  user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt              DateTime @default(now())
+}
+
+model ContentExecutionPlan {
+  id              String        @id @default(uuid())
+  marketingPlanId String
+  marketingPlan   MarketingPlan @relation(fields: [marketingPlanId], references: [id], onDelete: Cascade)
+  month           Int
+  planContent     Json
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  @@unique([marketingPlanId, month])
+}
+
+model GeneratedAdCampaign {
+  id              String        @id @default(uuid())
+  campaignName    String
+  objective       String
+  platforms       String[]
+  fullPlan        Json
+  marketingPlanId String
+  marketingPlan   MarketingPlan @relation(fields: [marketingPlanId], references: [id], onDelete: Cascade)
+  businessId      String
+  business        Business      @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt       DateTime      @default(now())
+}
+
+// --- ENUMS (Corrected Syntax) ---
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Plan {
+  FREE
+  PRO
+  AGENCY
+}
+
+enum Industry {
+  ECOMMERCE
+  FOOD_BEVERAGE
+  TECH_SAAS
+  HEALTH_WELLNESS
+  FASHION_BEAUTY
+  REAL_ESTATE
+  EDUCATION
+  MARKETING_AGENCY
+  OTHER
+}
+
+enum BusinessSize {
+  SOLOPRENEUR
+  SMALL
+  MEDIUM
+  LARGE
+}

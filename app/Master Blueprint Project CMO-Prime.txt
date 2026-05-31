@@ -1,0 +1,62 @@
+# Master Blueprint: Project "CMO-Prime"
+**Version:** 2.1 (The Interactive, Context-Aware, & Culturally-Adapted Engine)
+**Core Philosophy:** To create a digital platform that emulates a real-world, hyper-competent strategic marketing partner for any business, with a core focus on hyper-personalization, cultural relevance, and real-world applicability.
+
+---
+
+## 1. The Strategic Vision & Differentiators 
+(This section remains the same as the previous version)
+
+*   **Interactive Strategy (The "Strategic Dialogue")**
+*   **Cultural & Linguistic Adaptation**
+*   **Hyper-Local Competitive Analysis**
+*   **Embedded Strategic DNA**
+
+---
+
+## 2. System Architecture & Data Flow
+(This section remains the same as the previous version)
+
+---
+
+## 3. Key Database Models & Fields
+(This section remains the same as the previous version)
+
+---
+
+## 4. The Future of The Operations Room: Hyper-Realistic Expert Modules
+
+The "Specialized Experts" architecture we've built is the foundation for our future growth. Our guiding principle for all future experts is **Hyper-Realism and Hyper-Personalization**. Each new expert module will not just generate a plan, but will do so by deeply integrating all available context.
+
+### a. The "Ads General" (خبير الإعلانات)
+
+*   **Core Function:** To generate monthly advertising plans (`AdExecutionPlan`) that are ruthlessly focused on the user's `strategicGoal`.
+*   **Hyper-Personalization Inputs:**
+    *   **Budget-Aware:** The expert will take the `estimatedBudget` from the `MarketingPlan` and provide a realistic daily/weekly spend allocation across platforms.
+    *   **Asset-Aware:** If the user has an `EMAIL_LIST`, the expert will automatically suggest creating a "Custom Audience" on Facebook. If they have `EXISTING_WEBSITE_TRAFFIC`, it will suggest a "Retargeting" campaign.
+    *   **Persona-Driven:** Ad targeting recommendations will be a direct translation of the `audiencePersonas` from the analysis (demographics, interests, behaviors).
+*   **Hyper-Realistic Outputs:**
+    *   **Ad Creatives:** For each ad, the expert will generate not just the copy, but also a **detailed visual prompt** for an AI image generator (like DALL-E). This prompt will be based on the business's `visualPreferences`, the ad's message, and the target persona. *Example Visual Prompt: "A photorealistic image of a young Egyptian female entrepreneur in a modern co-working space in Cairo, looking confidently at her laptop. The color palette should be warm and professional, reflecting the brand's colors. Style: Inspirational, clean."*
+    *   **Landing Page Brief:** For lead-gen or sales campaigns, the expert will provide a brief for the landing page the ad should point to, ensuring message consistency.
+
+### b. The "SEO Specialist" (خبير السيو)
+
+*   **Core Function:** To generate monthly SEO action plans (`SeoExecutionPlan`).
+*   **Hyper-Personalization Inputs:**
+    *   **Competitor-Aware:** The expert will analyze the `competitorAnalysis` and suggest "keyword opportunities" – keywords that local competitors are ranking for but are not impossible to compete on.
+    *   **Content-Aware:** The expert will look at the generated `ContentExecutionPlan` and suggest on-page SEO optimizations for each blog post or page being created that month.
+*   **Hyper-Realistic Outputs:**
+    *   **Technical SEO Tasks:** A checklist of actionable technical tasks (e.g., "Check mobile-friendliness," "Improve page speed for these 3 pages").
+    *   **On-Page SEO Tasks:** For each piece of content in the content plan, it will provide: a suggested `meta title`, a `meta description`, and `alt-text` suggestions for images.
+    *   **Off-Page SEO Strategy:** A list of local directories or blogs relevant to the business's `location` and `industry` to pursue for backlinks.
+
+### c. The "PR & Outreach Maven" (خبير العلاقات العامة)
+
+*   **Core Function:** To generate monthly PR and outreach plans.
+*   **Hyper-Personalization Inputs:**
+    *   **Industry-Aware:** It will identify top journalists, bloggers, and influencers in the business's specific `industry` and `location`.
+*   **Hyper-Realistic Outputs:**
+    *   **Personalized Email Pitches:** It will draft ready-to-send email pitches to these specific influencers, referencing their recent work to make the pitch feel personal and not like spam.
+    *   **Press Release Angles:** It will generate 2-3 story angles for press releases that are newsworthy and relevant to the business's activities for that month.
+
+This forward-looking vision ensures that as we build, we are always moving towards our ultimate goal: a truly integrated, intelligent, and indispensable marketing OS.

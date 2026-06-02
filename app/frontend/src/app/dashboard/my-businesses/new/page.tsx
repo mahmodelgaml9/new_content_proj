@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { axiosInstance } from '@/lib/axios';
+import apiClient from '@/lib/axios';
 import { useAuthStore } from '@/store/authStore';
-import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
-import { Select } from '@/components/ui/Select';
-import { Loader } from '@/components/ui/Loader';
+import Input from '@/components/ui/Input';
+import Button from '@/components/ui/Button';
+import Select from '@/components/ui/Select';
+import Loader from '@/components/ui/Loader';
 import { Industry } from '@/lib/enums';
 
 type FormValues = {
@@ -39,7 +39,7 @@ export default function NewBusinessPage() {
     setError(null);
 
     try {
-      const response = await axiosInstance.post('/api/businesses', {
+      const response = await apiClient.post('/businesses', {
         ...data,
       });
       console.log('Business created successfully:', response.data);
@@ -93,16 +93,11 @@ export default function NewBusinessPage() {
           </label>
           <Select
             id="industry"
-            {...register('industry', { required: 'Industry is required' })}
-            className="mt-1"
-          >
-            <option value="">Select an industry...</option>
-            {Object.values(Industry).map((industry) => (
-              <option key={industry} value={industry}>
-                {industry.replace(/_/g, ' ')}
-              </option>
-            ))}
-          </Select>
+            registration={register('industry', { required: 'Industry is required' })}
+            options={Object.values(Industry).map(industry => ({ value: industry, label: industry.replace(/_/g, ' ') }))}
+            placeholder="Select an industry..."
+            selectClassName="mt-1"
+          />
           {errors.industry && <p className="text-red-500 text-sm mt-1">{errors.industry.message}</p>}
         </div>
 
@@ -110,7 +105,7 @@ export default function NewBusinessPage() {
 
         <div className="flex justify-end">
           <Button type="submit" disabled={isLoading}>
-            {isLoading ? <Loader text="Analyzing & Creating..." /> : 'Create Business'}
+            {isLoading ? <Loader message="Analyzing & Creating..." /> : 'Create Business'}
           </Button>
         </div>
       </form>

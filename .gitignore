@@ -1,3 +1,6 @@
 node_modules/
 dist/
 .env
+app/frontend/.next/
+.next
+app/frontend/.next/

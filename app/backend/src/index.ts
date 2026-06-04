@@ -10,7 +10,7 @@ import planningRouter from './planning/planning.routes';
 import executionRouter from './execution/execution.routes';
 import creativeRouter from './creative/creative.routes';
 import generationRouter from './generation/generation.routes';
-// import adsRouter from './ads/ads.routes';
+import adsRouter from './ads/ads.routes';
 
 
 dotenv.config();
@@ -30,7 +30,7 @@ app.use('/api/planning', planningRouter);
 app.use('/api/execution', executionRouter);
 app.use('/api/creative', creativeRouter);
 app.use('/api/generation', generationRouter);
-// app.use('/api/ads', adsRouter);
+app.use('/api/ads', adsRouter);
 
 
 // Start the server

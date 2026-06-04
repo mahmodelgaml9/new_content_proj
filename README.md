@@ -1,83 +1,156 @@
 # Project: CMO-Prime - The AI-Powered Marketing OS
 
-**Version:** 2.1 (The Interactive, Context-Aware, & Culturally-Adapted Engine)
+**Version:** 2.1 (Prototype / Early MVP)
 
-## Legendary Vision & Core Philosophy
+## Project Overview
 
-CMO-Prime is not a tool; it is an AI-Powered Chief Marketing Officer delivered as a SaaS platform. Our mission is to provide businesses of all sizes with a strategic partner that is capable of diagnosing their market position, architecting bespoke marketing strategies, and executing them with creative precision. We aim to democratize world-class marketing intelligence, making it accessible, fast, and actionable.
+CMO-Prime is an AI-first SaaS platform designed to serve as a digital Chief Marketing Officer for small and mid-market businesses. The platform aims to generate strategic business insights, marketing plans, execution roadmaps, and content guidance from a single integrated interface.
 
-**Core Philosophy:** To create a digital platform that emulates a real-world, hyper-competent strategic marketing partner for any business, with a core focus on hyper-personalization, cultural relevance, and real-world applicability.
+This repository contains the current prototype implementation with a backend API, a frontend dashboard, and an evolving AI generation architecture.
 
-## Strategic Differentiators
+## Current Status (June 2026)
 
-*   **Interactive Strategy (The "Strategic Dialogue")**
-*   **Cultural & Linguistic Adaptation**
-*   **Hyper-Local Competitive Analysis**
-*   **Embedded Strategic DNA**
+### What is implemented today
 
-## Core Features
+* Backend scaffolding is present in `app/backend/src`.
+* Core API routes are registered for:
+  * `auth`
+  * `businesses`
+  * `strategy`
+  * `planning`
+  * `execution`
+  * `creative`
+  * `generation`
+* `ads` route support is scaffolded but currently commented out in `app/backend/src/index.ts`.
+* Database schema is defined in `app/backend/prisma/schema.prisma` and includes:
+  * User, Business, MarketAnalysis, BrandIdentity, CustomerBlueprint
+  * MarketingPlan, ContentExecutionPlan, GeneratedContent
+  * GeneratedAdCampaign and related enums
+* Frontend is implemented as a Next.js app in `app/frontend/src/app` with core dashboard and business workflows.
+* The project is container-ready via `app/backend/docker-compose.yml` with PostgreSQL and Redis services.
 
-The platform is built on four strategic pillars:
+### Current functional gaps
 
-*   **Diagnose:** A comprehensive analysis engine that generates a "Unified Strategic Blueprint" by understanding the business, market, competitors, and audience on a deep level.
-*   **Strategize:** A planning engine that transforms the blueprint into multiple, scenario-based master marketing plans (e.g., based on budget).
-*   **Execute:** An "Operations Room" of specialized AI experts (Content, Ads, SEO) that break down the master plan into actionable, monthly execution calendars.
-*   **Creative Direction:** Through the diagnosis to creation steps, the system defines the best creative angle, detailing exactly how the creative should be structured and designed with comprehensive specifications.
-*   **Create:** A hybrid creative engine that generates high-quality, on-brand content (text and eventually visuals) in both interactive streams and efficient batches.
+* AI orchestration flows are partially defined, but the end-to-end prompt lifecycle and frontend integration require stabilization.
+* Ads and extended specialist modules are not yet active in the API.
+* Frontend pages are structured, but full API connectivity and user experience polish remain incomplete.
+* Production readiness has not been established for deployment, scaling, or secure secrets handling.
 
-## Current Status & Roadmap
+### Status summary
 
-**Status:** Under Active Development & Debugging
+* **Backend:** Prototype API routes are present and ready for implementation completion.
+* **Database:** Schema is strong and purpose-built for marketing strategy, but model relationships still need full service coverage.
+* **Frontend:** Core skeleton exists, with dashboard and auth flow foundations.
+* **AI integration:** Base services are in place; business logic and prompt execution require further work.
+* **Infrastructure:** Docker compose is configured for local development, but the repo lacks a unified root-level deployment manifest.
 
-The project is currently in its initial development and debugging phase. We are actively working to complete and polish the core features. The ultimate goal is to evolve CMO-Prime into a genuinely powerful, globally capable Chief Marketing Officer that drives real-world growth and sales.
+## Professional Implementation Plan
 
-## Specialized AI Experts (The Future of The Operations Room)
+### Phase 1: Validation and Foundation
 
-The "Specialized Experts" architecture is the foundation for our future growth. Our guiding principle for all future experts is **Hyper-Realism and Hyper-Personalization**. Each new expert module will not just generate a plan, but will do so by deeply integrating all available context.
+1. Validate local development environment
+   * Confirm `app/backend` container builds successfully
+   * Confirm PostgreSQL and Redis startup health
+   * Run Prisma migration and verify DB schema
+2. Stabilize backend router implementations
+   * Review and complete controllers for `auth`, `businesses`, `strategy`, `planning`, `execution`, `creative`, and `generation`
+   * Add consistent error handling, data validation, and standardized JSON response shapes
+3. Document API contracts clearly
+   * Define request/response payloads for each endpoint
+   * Create a lightweight API reference in the repo
 
-### a. The "Ads General" (خبير الإعلانات)
-*   **Core Function:** To generate monthly advertising plans (`AdExecutionPlan`) that are ruthlessly focused on the user's `strategicGoal`.
-*   **Hyper-Personalization Inputs:** Budget-Aware, Asset-Aware (e.g., Custom Audiences/Retargeting), and Persona-Driven.
-*   **Hyper-Realistic Outputs:** Ad Creatives (including detailed visual prompts for AI image generators) and Landing Page Briefs.
+### Phase 2: Core Backend Completion
 
-### b. The "SEO Specialist" (خبير السيو)
-*   **Core Function:** To generate monthly SEO action plans (`SeoExecutionPlan`).
-*   **Hyper-Personalization Inputs:** Competitor-Aware (identifying keyword opportunities) and Content-Aware (on-page optimization for content plans).
-*   **Hyper-Realistic Outputs:** Actionable Technical SEO Tasks, On-Page SEO Tasks (meta titles, descriptions, alt-text), and Off-Page SEO Strategy (local directories, backlinks).
+1. Complete model-to-service wiring
+   * Ensure Prisma models are used consistently in services
+   * Implement missing CRUD and business logic paths
+2. Enable the ads module
+   * Un-comment and wire `ads` routes once core execution pipelines are stable
+   * Add schema and service support for ad campaign generation
+3. Harden auth / security
+   * Confirm JWT flow for auth
+   * Validate route protection for business and plan resources
+   * Add input sanitization and data validation
 
-### c. The "PR & Outreach Maven" (خبير العلاقات العامة)
-*   **Core Function:** To generate monthly PR and outreach plans.
-*   **Hyper-Personalization Inputs:** Industry-Aware (identifying top journalists, bloggers, influencers locally and industry-wide).
-*   **Hyper-Realistic Outputs:** Personalized Email Pitches and Press Release Angles.
+### Phase 3: Frontend Integration and UX
+
+1. Build end-to-end user flows
+   * Signup / login
+   * Business creation and management
+   * Strategy generation and planning
+   * Content generation and creative plan display
+2. Connect frontend to backend APIs
+   * Use `app/frontend/lib/axios.ts` for authenticated API calls
+   * Use `app/frontend/store/authStore.ts` for state management
+3. Improve UX and page polish
+   * Validate page navigation, loading states, error states
+   * Refine dashboard layout, business pages, and generation workflow
+
+### Phase 4: AI Pipeline Stabilization
+
+1. Finalize AI prompt orchestration
+   * Define prompt templates, context injection, and model selection logic
+   * Add fallback handling for OpenAI and Gemini responses
+2. Strengthen content generation modules
+   * Ensure generated content is stored in `GeneratedContent`
+   * Map AI outputs into marketing and execution plan models
+3. Add monitoring and logs
+   * Log failed AI requests and service errors
+   * Track execution progress for long-running operations
+
+### Phase 5: QA, Documentation, and Launch Preparation
+
+1. Execute manual testing across flows
+   * User auth
+   * Business onboarding
+   * Strategy generation
+   * Content and campaign generation
+2. Improve repository documentation
+   * Add setup instructions for `app/backend` and `app/frontend`
+   * Document environment variables and deployment requirements
+3. Prepare deployment plan
+   * Define whether the application will deploy to a cloud container service, Kubernetes, or a managed platform
+   * Add production-ready environment manifests if required
+
+## Recommended Priorities
+
+1. Finish backend route implementation and service wiring.
+2. Confirm database migrations and Prisma client generation.
+3. Complete the frontend API connection and dashboard user flows.
+4. Stabilize AI generation logic and ensure outputs are persisted.
+5. Add formal QA and deployment readiness checks.
 
 ## Technology Stack
 
-Our robust tech stack leverages modern frameworks to ensure performance and scalability:
+* Backend: Node.js, Express, TypeScript
+* Frontend: Next.js, React, Tailwind CSS, Zustand
+* Database: PostgreSQL
+* ORM: Prisma
+* AI: OpenAI, Google Gemini
+* Caching: Redis
+* Automation: Puppeteer
+* Containerization: Docker, Docker Compose
 
-*   **Backend:** Node.js with Express.js (`express-async-errors`, `cors`)
-*   **Frontend:** React (`react-hook-form`, `lucide-react`, `zustand`, `clsx`), Next.js, Tailwind CSS, Vite
-*   **Language:** TypeScript
-*   **Database:** PostgreSQL with Redis caching
-*   **ORM:** Prisma (`@prisma/client`)
-*   **AI/ML:** OpenAI (GPT-4o), Google Gemini (`@google/genai`)
-*   **Web Scraping & Automation:** Puppeteer
-*   **Security:** `bcryptjs`, `jsonwebtoken`
-*   **Networking:** `axios`, `dotenv`
-*   **Containerization:** Docker & Docker Compose
+## Local Development
 
-## Getting Started & Local Development
+From `app/backend`:
 
-The project is fully containerized for a seamless development experience.
+```bash
+cd app/backend
+npm install
+npx prisma generate
+npx prisma migrate dev --name init
+docker-compose up -d --build
+```
 
-1.  **Prerequisites:** Ensure you have Docker and Docker Compose installed.
-2.  **Environment:** Create a `.env` file in the project root and populate it with the necessary keys (e.g., `DATABASE_URL`, `OPENAI_API_KEY`, `JWT_SECRET`).
-3.  **Build & Run:** The primary command to build, migrate the database, and run the application is:
-    ```bash
-    docker-compose up -d --build
-    ```
-4.  **Stopping the environment:** To stop all services and remove volumes (for a clean restart), use:
-    ```bash
-    docker-compose down -v
-    ```
+From `app/frontend`:
 
-This forward-looking vision ensures that as we build, we are always moving towards our ultimate goal: a truly integrated, intelligent, and indispensable marketing OS.
+```bash
+cd app/frontend
+npm install
+npm run dev
+```
+
+## Notes
+
+This README now reflects the current implementation state: a backend prototype with route scaffolding, a business strategy data model, and a frontend dashboard foundation. The implementation plan is designed to move the repository from prototype status to an integrated MVP with clear, phased deliverables.

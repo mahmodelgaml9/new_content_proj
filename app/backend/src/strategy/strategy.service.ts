@@ -11,7 +11,7 @@ class StrategyService {
     try {
       browser = await puppeteer.launch({
         executablePath: '/usr/bin/chromium',
-        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+        args: ['--disable-dev-shm-usage'],
         headless: true,
       });
       const page = await browser.newPage();
@@ -33,7 +33,7 @@ class StrategyService {
     console.log(`[StrategyService] Attempting HYPER-LOCAL search on Google Maps for: "${query}"`);
     let browser;
     try {
-      browser = await puppeteer.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'], headless: true });
+      browser = await puppeteer.launch({ executablePath: '/usr/bin/chromium', args: ['--disable-dev-shm-usage'], headless: true });
       const page = await browser.newPage();
       await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
       
@@ -66,7 +66,7 @@ class StrategyService {
     console.log(`[StrategyService] Fallback Activated: Performing GENERAL web search for: "${query}"`);
     let browser;
     try {
-      browser = await puppeteer.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'], headless: true });
+      browser = await puppeteer.launch({ executablePath: '/usr/bin/chromium', args: ['--disable-dev-shm-usage'], headless: true });
       const page = await browser.newPage();
       await page.goto(`https://www.google.com/search?q=${encodeURIComponent(query)}&hl=en`);
       await page.waitForSelector('div.g');

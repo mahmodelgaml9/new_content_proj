@@ -1,14 +1,31 @@
 
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import { ArrowRight, BotMessageSquare, BriefcaseBusiness, LayoutDashboard } from 'lucide-react';
+import apiClient from '@/lib/axios';
 
 const DashboardPage: React.FC = () => {
   const user = useAuthStore((state) => state.user);
+  const [stats, setStats] = useState({ businessesManaged: 0, contentGenerated: 0 });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await apiClient.get('/auth/me/stats');
+        setStats(response.data);
+      } catch (error) {
+        console.error('Failed to fetch user stats:', error);
+      }
+    };
+
+    if (user) {
+      fetchStats();
+    }
+  }, [user]);
 
   return (
     <div className="space-y-8">
@@ -60,11 +77,11 @@ const DashboardPage: React.FC = () => {
           <div className="space-y-3">
             <div className="flex justify-between text-sm">
                 <span className="text-neutral-DEFAULT">Businesses Managed:</span>
-                <span className="font-semibold text-neutral-darkest">0</span> {/* TODO: Fetch actual data */}
+                <span className="font-semibold text-neutral-darkest">{stats.businessesManaged}</span>
             </div>
             <div className="flex justify-between text-sm">
                 <span className="text-neutral-DEFAULT">Content Generated:</span>
-                <span className="font-semibold text-neutral-darkest">0</span> {/* TODO: Fetch actual data */}
+                <span className="font-semibold text-neutral-darkest">{stats.contentGenerated}</span>
             </div>
              <div className="flex justify-between text-sm">
                 <span className="text-neutral-DEFAULT">Active Plan:</span>
@@ -78,7 +95,7 @@ const DashboardPage: React.FC = () => {
       <section className="bg-white shadow-sm rounded-lg p-6">
         <h2 className="text-xl font-semibold text-neutral-darkest mb-3">Next Steps</h2>
         <ul className="list-disc list-inside text-neutral-DEFAULT space-y-1 text-sm">
-            <li>If you haven't already, <Link href="/dashboard/my-businesses" className="text-primary-DEFAULT hover:underline">add your first business profile</Link>.</li>
+            <li>If you haven&apos;t already, <Link href="/dashboard/my-businesses" className="text-primary-DEFAULT hover:underline">add your first business profile</Link>.</li>
             <li>Explore the <Link href="/dashboard/generate" className="text-primary-DEFAULT hover:underline">content generation tools</Link> to see the AI in action.</li>
             <li>Consider upgrading your plan for more features and higher limits.</li>
         </ul>

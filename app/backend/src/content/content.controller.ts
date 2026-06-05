@@ -3,6 +3,7 @@
 // import * as contentService from './content.service';
 // import { AuthenticatedRequest } from '../auth/auth.middleware';
 // import { generateContentStream } from '../services/generation.service'; // For streaming
+// import { prisma } from '../services/prisma.service';
 
 // export async function saveGeneratedContentHandler(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
 //   try {
@@ -31,8 +32,12 @@
 //         res.status(400).json({ message: 'Business ID is required for content generation.' });
 //         return;
 //     }
-//     // TODO: Add validation that req.user.id owns generationParams.businessId
-//     // Example: const business = await prisma.business.findFirst({ where: { id: generationParams.businessId, userId: req.user.id }}); if (!business) { ... }
+//     // Add validation that req.user.id owns generationParams.businessId
+//     const business = await prisma.business.findFirst({ where: { id: generationParams.businessId, userId: req.user.id }});
+//     if (!business) {
+//         res.status(403).json({ message: 'User does not own the business associated with this ID.' });
+//         return;
+//     }
 
 //     res.setHeader('Content-Type', 'text/event-stream');
 //     res.setHeader('Cache-Control', 'no-cache');

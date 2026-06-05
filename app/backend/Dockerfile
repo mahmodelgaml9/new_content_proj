@@ -66,7 +66,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends chromium
 
 WORKDIR /usr/src/app
 
-COPY --from=builder /usr/src/app .
+COPY --chown=node:node --from=builder /usr/src/app .
+
+USER node
 
 # We don't need to set the path here, we will do it in the code for clarity.
 

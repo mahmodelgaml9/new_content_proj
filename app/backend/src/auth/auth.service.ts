@@ -35,6 +35,18 @@ class AuthService {
     return { user: userWithoutPassword, token };
   }
 
+  public async getUserStats(userId: string): Promise<{ businessesManaged: number; contentGenerated: number }> {
+    const businessesManaged = await prisma.business.count({
+      where: { ownerId: userId },
+    });
+
+    const contentGenerated = await prisma.generatedContent.count({
+      where: { userId: userId },
+    });
+
+    return { businessesManaged, contentGenerated };
+  }
+
   private generateJwt(user: Omit<User, 'password'>): string {
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {

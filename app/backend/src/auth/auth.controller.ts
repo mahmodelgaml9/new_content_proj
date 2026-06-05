@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { authService } from './auth.service';
+import { AuthenticatedRequest } from './auth.middleware';
 
 class AuthController {
   public async signup(req: Request, res: Response): Promise<void> {
@@ -29,6 +30,20 @@ class AuthController {
       res.status(200).json(result);
     } catch (error) {
       res.status(500).json({ message: 'An unexpected error occurred during login.' });
+    }
+  }
+
+  public async getUserStats(req: AuthenticatedRequest, res: Response): Promise<void> {
+    try {
+      if (!req.user) {
+        res.status(401).json({ message: 'User not authenticated' });
+        return;
+      }
+
+      const stats = await authService.getUserStats(req.user.id);
+      res.status(200).json(stats);
+    } catch (error) {
+      res.status(500).json({ message: 'An unexpected error occurred while fetching user stats.' });
     }
   }
 }
